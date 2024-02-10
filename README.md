@@ -16,6 +16,7 @@ _Chinchilla paper but with low-rank adaptation and for causal language modelling
     - `ai4privacy/pii-masking-200k`, medium (**21K**)
     - `ai4privacy/pii-masking-200k`, small (**2.1K**)
   - trainers
+    - `Accelerate`
     - `Trainer`
 
 - summarization
@@ -29,6 +30,7 @@ _Chinchilla paper but with low-rank adaptation and for causal language modelling
     - `cnn_dailymail`, medium (**31K**)
     - `cnn_dailymail`, small (**3.1K**)
   - trainers
+    - `Accelerate`
     - `Trainer`
 - conversational
   - models:
@@ -42,6 +44,7 @@ _Chinchilla paper but with low-rank adaptation and for causal language modelling
     - `Open-Orca/OpenOrca`, medium (**29.1k**)
     - `Open-Orca/OpenOrca`, small (**2.9k**)
   - trainers
+    - `Accelerate`
     - `Trainer`
     - `SFTTrainer`
     - `DPOTrainer`
