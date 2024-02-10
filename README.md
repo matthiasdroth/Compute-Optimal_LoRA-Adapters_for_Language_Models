@@ -1,4 +1,4 @@
-# Compute-Optimal LoRA Adapters for Causal-LM
+# Compute-Optimal LoRA Adapters for Language Models
 
 _Chinchilla paper but with low-rank adaptation and for causal language modelling_
 
@@ -10,7 +10,8 @@ _Chinchilla paper but with low-rank adaptation and for causal language modelling
     - `mistralai/Mixtral-8x7B-Instruct-v0.1` (**decoder**, 8$\times$12.1GB) [link](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1)
     - `FacebookAI/roberta-large` (**encoder**, 1.43GB) [link](https://huggingface.co/FacebookAI/roberta-large)
   - evaluation:
-    - compare with labels ($\Rightarrow$ **precision**, **recall**, **accuracy**, **$F_1$** etc.)
+    - **seqeval** [link](https://pypi.org/project/seqeval/)
+    - **LightEval** [link](https://github.com/huggingface/lighteval)
   - datasets
     - `ai4privacy/pii-masking-200k`, large (**209K**) [link](https://huggingface.co/datasets/ai4privacy/pii-masking-200k)
     - `ai4privacy/pii-masking-200k`, medium (**21K**)
@@ -24,7 +25,8 @@ _Chinchilla paper but with low-rank adaptation and for causal language modelling
     - `mistralai/Mixtral-8x7B-Instruct-v0.1` (**decoder**, 8$\times$12.1GB) [link](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1)
     - `facebook/bart-large-xsum` (**encoder-decoder**, 1.63GB) [link](https://huggingface.co/facebook/bart-large-xsum)
   - evaluation:
-    - **ROUGE** score [link](https://huggingface.co/spaces/evaluate-metric/rouge)
+    - **ROUGE** [link](https://huggingface.co/spaces/evaluate-metric/rouge)
+    - **LightEval** [link](https://github.com/huggingface/lighteval)
   - datasets
     - `cnn_dailymail`, large (**311K**) [link](https://huggingface.co/datasets/cnn_dailymail)
     - `cnn_dailymail`, medium (**31K**)
@@ -38,6 +40,7 @@ _Chinchilla paper but with low-rank adaptation and for causal language modelling
     - `microsoft/DialoGPT-large` (**decoder**, 1.75GB) [link](https://huggingface.co/microsoft/DialoGPT-large/tree/main)
   - evaluation:
     - **EleutherAI LM evaluation harness** [link](https://github.com/EleutherAI/lm-evaluation-harness)
+    - **LightEval** [link](https://github.com/huggingface/lighteval)
   - datasets
     - `Open-Orca/OpenOrca`, xlarge (**2.91M**) [link](https://huggingface.co/datasets/Open-Orca/OpenOrca)
     - `Open-Orca/OpenOrca`, large (**291k**)
