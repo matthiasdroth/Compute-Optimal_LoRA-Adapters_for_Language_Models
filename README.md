@@ -13,9 +13,12 @@ _Chinchilla paper but with low-rank adaptation and for causal language modelling
     - **seqeval** [link](https://pypi.org/project/seqeval/)
     - **LightEval** [link](https://github.com/huggingface/lighteval)
   - datasets
+    - `DFKI-SLT/few-nerd`, large (**188K**) [link](https://huggingface.co/datasets/DFKI-SLT/few-nerd)
+    - `DFKI-SLT/few-nerd`, medium (**18.8K**) [link](https://huggingface.co/datasets/DFKI-SLT/few-nerd)
+    - `DFKI-SLT/few-nerd`, small (**1.9K**) [link](https://huggingface.co/datasets/DFKI-SLT/few-nerd)
     - `ai4privacy/pii-masking-200k`, large (**209K**) [link](https://huggingface.co/datasets/ai4privacy/pii-masking-200k)
-    - `ai4privacy/pii-masking-200k`, medium (**21K**)
-    - `ai4privacy/pii-masking-200k`, small (**2.1K**)
+    - `ai4privacy/pii-masking-200k`, medium (**21K**) [link](https://huggingface.co/datasets/ai4privacy/pii-masking-200k)
+    - `ai4privacy/pii-masking-200k`, small (**2.1K**) [link](https://huggingface.co/datasets/ai4privacy/pii-masking-200k)
   - trainers
     - `Accelerate`
     - `Trainer`
