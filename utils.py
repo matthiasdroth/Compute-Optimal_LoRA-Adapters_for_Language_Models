@@ -6,6 +6,22 @@ from accelerate import Accelerator
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
 
+def get_max_instance(tokenized_dataset):
+    """
+    tokenized_dataset is NOT a DatasetDict BUT a tokenized Dataset with an "input_ids" field, 
+    """
+    assert isinstance(tokenized_dataset, Dataset), "passed dataset is not a `Dataset` instance"
+    assert "input_ids" in list(tokenized_dataset.features.keys()), "passed dataset has no 'input_ids' field"
+    index_max = -1
+    len_max = -1
+    for i in range(tokenized_dataset.num_rows):
+        len_i = len(tokenized_dataset[i]["input_ids"]) # the length of "input_ids" (=> tokenized) may exceed the length of "words"
+        if len_i > len_max:
+            index_max = i
+            len_max = len_i
+    instance_max = tokenized_dataset[index_max]
+    return instance_max, len_max
+
 def get_max_batchsize(model, instance_max, data_collator):
     """
     Given a model and the biggest instance of a dataset, this function returns the biggest batch size for training the model.
