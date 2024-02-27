@@ -61,7 +61,7 @@ def get_max_batchsize(model, instance_max, data_collator):
                 optimizer.step()
                 optimizer.zero_grad()
                 bs_max = bs_batch_size
-                print(f"batch size\t{bs_max}\tworks!")
+                print(f"Batch size\t{bs_max}\tworks!")
             except:
                 del df, bs_model, bs_datacollator
                 gc.collect()
