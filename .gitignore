@@ -6,5 +6,6 @@ enneo
 wandb
 training_logs
 # files
-.env        # environment variables
-*.bin       # pytorch_model.bin etc.
+.env
+*.bin
+*.safetensors
