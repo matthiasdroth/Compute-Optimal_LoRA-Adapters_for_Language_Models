@@ -15,15 +15,15 @@
   "megatron_core": "megatron.core",
   "modules_to_save": null,
   "peft_type": "LORA",
-  "r": 4,
+  "r": 256,
   "rank_pattern": {},
   "revision": null,
   "target_modules": [
     "value_proj",
     "query",
     "key",
-    "value",
     "query_proj",
+    "value",
     "key_proj"
   ],
   "task_type": "TOKEN_CLS",
