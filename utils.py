@@ -1,10 +1,38 @@
+import os
 import gc
-import copy
+#import copy
+import torch
+import random
+import numpy as np
 import pandas as pd
 from datasets import Dataset, concatenate_datasets
 from accelerate import Accelerator
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
+
+
+def set_seed(seed):
+    """
+    Sets all random seeds.
+    Tried and proven values:
+    split     seed
+    dev       42
+    1         6900
+    10        not(0, 42, 69, 690, 420, 4200, 6900)
+    100       420
+    """
+        # https://wandb.ai/sauravmaheshkar/RSNA-MICCAI/reports/How-to-Set-Random-Seeds-in-PyTorch-and-Tensorflow--VmlldzoxMDA2MDQy
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    # when running the cudnn backend, two further options must be set
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    # set a fixed value for the hash seed
+    os.environ["PYTHONHASHSEED"] = str(seed)
+    print(f"All random seeds set to {seed}.")
+    return seed
 
 def get_max_instance(tokenized_dataset):
     """
@@ -30,16 +58,18 @@ def get_max_batchsize(model, instance_max, data_collator):
     (bs is short for batch_size)
     """
     bs_accelerator = Accelerator()
-    bs_model = copy.copy(model)
-    optimizer = AdamW(bs_model.parameters())
+    # try both:
+    # 1. model = model
+    # 2. model = copy.copy(model)
+    optimizer = AdamW(model.parameters())
     # https://stackoverflow.com/questions/66266232/pandas-collapse-values-of-columns-to-lists
     df = pd.DataFrame.from_dict(instance_max)
     df = df.stack().reset_index(level=0, drop=True)
     df = df.groupby(df.index).apply(list).to_frame().transpose()
     # initialise parameters
     bs_max = 0
-    bs_model.train()
-    bs_datacollator = copy.copy(data_collator)
+    model.train()
+    #bs_datacollator = copy.copy(data_collator)
     stop_loop = False
     # start loop
     for bs_i in range(10*6):
@@ -51,11 +81,11 @@ def get_max_batchsize(model, instance_max, data_collator):
             else:
                 instance_max_ds = concatenate_datasets([instance_max_ds, instance_max_ds])
             # define dataloader that returns the entire dataset of size "bs_batch_size"
-            bs_dataloader = DataLoader(instance_max_ds, collate_fn=bs_datacollator, batch_size=bs_batch_size)
+            bs_dataloader = DataLoader(instance_max_ds, collate_fn=data_collator, batch_size=bs_batch_size)
             assert bs_batch_size==len(instance_max_ds)
             bs_batch = next(iter(bs_dataloader))
             try:
-                bs_outputs = bs_model(**bs_batch)
+                bs_outputs = model(**bs_batch)
                 bs_loss = bs_outputs.loss
                 bs_accelerator.backward(bs_loss)
                 optimizer.step()
@@ -63,7 +93,7 @@ def get_max_batchsize(model, instance_max, data_collator):
                 bs_max = bs_batch_size
                 print(f"Batch size\t{bs_max}\tworks!")
             except:
-                del df, bs_model, bs_datacollator
+                del df, model#, bs_datacollator
                 gc.collect()
                 stop_loop = True
                 break
