@@ -1,27 +1,22 @@
 import os
 import gc
-#import copy
 import torch
 import random
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from datasets import Dataset, concatenate_datasets
 from accelerate import Accelerator
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
+from sklearn.metrics import ConfusionMatrixDisplay
 
 
 def set_seed(seed):
     """
     Sets all random seeds.
-    Tried and proven values:
-    split     seed
-    dev       42
-    1         6900
-    10        not(0, 42, 69, 690, 420, 4200, 6900)
-    100       420
     """
-        # https://wandb.ai/sauravmaheshkar/RSNA-MICCAI/reports/How-to-Set-Random-Seeds-in-PyTorch-and-Tensorflow--VmlldzoxMDA2MDQy
+    # https://wandb.ai/sauravmaheshkar/RSNA-MICCAI/reports/How-to-Set-Random-Seeds-in-PyTorch-and-Tensorflow--VmlldzoxMDA2MDQy
     np.random.seed(seed)
     random.seed(seed)
     torch.manual_seed(seed)
@@ -34,9 +29,54 @@ def set_seed(seed):
     print(f"All random seeds set to {seed}.")
     return seed
 
+def make_confusion_matrix(y_true, y_pred, labels, percentage=True, plot=True, size=7, folderpath=None):
+    """
+    This function makes a confusion matrix.
+    parameters:
+        - y_true: list of true labels
+        - y_pred: list of predicted labels
+        - labels: list of label names (=> list of strings) corresponding to y_true
+        - percentage:
+              - True (default) => the values in each row (that is for each actual class) a converted to percentages
+              - False => keep raw counts
+        - plot:
+              - True (default) => plot confusion matrix
+              - False => return confusion matrix as np.array
+        - size: size of plot (7 by default)
+        - folderpath: if specified, the plot will be saved as "confusion_matrix.png" under that folderpath
+    """
+    y_true_flat = y_true # flat list of labels
+    y_pred_flat = y_pred # flat list of predictions
+    idx_dict = {}
+    dim = len(labels)
+    for i in range(dim):
+        idx_dict[labels[i]] = i # idx_dict["label(text)"] = index (indices to be used as rows or columns)
+    conf_matrix = np.zeros((dim, dim)) # matrix with dim-by-dim zeroes
+    for i in range(len(y_true_flat)): # use i to loop over both, actual and predicted labels
+        row = y_true_flat[i] # true label
+        col = y_pred_flat[i] # true label
+        conf_matrix[row, col] += 1
+    if percentage==True:
+        values_format = ".1f"
+        for i in range(len(conf_matrix)):
+            conf_matrix[i] *= 100/np.sum(conf_matrix[i])
+        cfm_type = "pct"
+    else:
+        values_format = "d"
+        conf_matrix = conf_matrix.astype(int)
+        cfm_type = "abs"
+    if not plot:
+        return conf_matrix
+    cmd = ConfusionMatrixDisplay(conf_matrix, display_labels=labels)
+    fig, ax = plt.subplots(figsize=(size, size))
+    cmd.plot(ax=ax, xticks_rotation="vertical", values_format=values_format)
+    if folderpath!=None:
+        cmd.figure_.savefig(f"{folderpath}/confusion_matrix_{cfm_type}.png")
+    pass
+
 def get_max_instance(tokenized_dataset):
     """
-    tokenized_dataset is NOT a DatasetDict BUT a tokenized Dataset with an "input_ids" field, 
+    The tokenized_dataset is NOT a DatasetDict BUT a tokenized Dataset with an "input_ids" field.
     """
     assert isinstance(tokenized_dataset, Dataset), "passed dataset is not a `Dataset` instance"
     assert "input_ids" in list(tokenized_dataset.features.keys()), "passed dataset has no 'input_ids' field"
