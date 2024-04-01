@@ -29,7 +29,20 @@ def set_seed(seed):
     print(f"All random seeds set to {seed}.")
     return seed
 
-def make_confusion_matrix(y_true, y_pred, labels, percentage=True, plot=True, size=7, folderpath=None):
+def smoothen_list(list_to_smooth, n):
+    """
+    Smoothen list_to_smooth by averaging over the last up to n values.
+    """
+    smoothened_list = []
+    for i in range(len(list_to_smooth)):
+        if i<n:
+            values_i = list_to_smooth[:i+1] # go from start until last postion with i<n
+        else:
+            values_i = list_to_smooth[i+1-n:i+1]
+        smoothened_list.append(np.mean(values_i))
+    return smoothened_list
+
+def make_confusion_matrix(y_true, y_pred, labels, percentage=True, plot=True, size=7, output_dir=None):
     """
     This function makes a confusion matrix.
     parameters:
@@ -70,8 +83,11 @@ def make_confusion_matrix(y_true, y_pred, labels, percentage=True, plot=True, si
     cmd = ConfusionMatrixDisplay(conf_matrix, display_labels=labels)
     fig, ax = plt.subplots(figsize=(size, size))
     cmd.plot(ax=ax, xticks_rotation="vertical", values_format=values_format)
-    if folderpath!=None:
-        cmd.figure_.savefig(f"{folderpath}/confusion_matrix_{cfm_type}.png")
+    plt.tight_layout()
+    if output_dir!=None:
+        output_filepath = f"{output_dir}/confusion_matrix_{cfm_type}.png"
+        cmd.figure_.savefig(output_filepath)
+        print(f"confusion_matrix saved under path:\n{output_filepath}")
     pass
 
 def get_max_instance(tokenized_dataset):
