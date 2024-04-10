@@ -1,0 +1,15 @@
+NER
+FacebookAI/roberta-base
+FacebookAI/roberta-large
+
+Summarization
+facebook/bart-base
+facebook/bart-large
+
+CausalLM
+microsoft/DialoGPT-small
+microsoft/DialoGPT-medium
+microsoft/DialoGPT-large
+meta-llama/Llama-2-7b-chat
+meta-llama/Llama-2-13b-chat
+meta-llama/Llama-2-70b-chat
