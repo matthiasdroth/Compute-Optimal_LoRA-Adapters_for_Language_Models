@@ -1,0 +1,75 @@
+{
+  "seed": 42,
+  "model_id": "FacebookAI/roberta-large",
+  "LoRA_params_dict": {
+    "r": 8,
+    "target_modules": [
+      "query",
+      "key",
+      "value",
+      "query_proj",
+      "key_proj",
+      "value_proj"
+    ],
+    "bias": "none",
+    "use_rslora": true,
+    "task_type": "TOKEN_CLS",
+    "lora_dropout": 0.0
+  },
+  "LoraConfig": "LoraConfig(peft_type=<PeftType.LORA: 'LORA'>, auto_mapping=None, base_model_name_or_path=None, revision=None, task_type=<TaskType.TOKEN_CLS: 'TOKEN_CLS'>, inference_mode=False, r=8, target_modules={'value', 'query', 'value_proj', 'query_proj', 'key_proj', 'key'}, lora_alpha=8, lora_dropout=0.0, fan_in_fan_out=False, bias='none', use_rslora=True, modules_to_save=None, init_lora_weights=True, layers_to_transform=None, layers_pattern=None, rank_pattern={}, alpha_pattern={}, megatron_config=None, megatron_core='megatron.core', loftq_config={})",
+  "LoRA_model_trainable_params": 1188873,
+  "LoRA_model_all_params": 355508242,
+  "LoRA_model_trainable_fraction": 0.00334,
+  "tokenizer": "FacebookAI/roberta-large",
+  "batch_size": 8,
+  "num_training_steps": 4914,
+  "num_warmup_steps": 246,
+  "epoch_0_metrics_macro": [
+    "accuracy: 0.5174674227479011",
+    "precision: 0.49167172393161857",
+    "recall: 0.7528984580854313",
+    "f1-score: 0.5920824609074062",
+    "support: 113039"
+  ],
+  "epoch_0_metrics_weighted": [
+    "accuracy: 0.5174674227479011",
+    "precision: 0.29257970608268563",
+    "recall: 0.5174674227479011",
+    "f1-score: 0.37195741939401605",
+    "support: 113039"
+  ],
+  "epoch_1_metrics_macro": [
+    "accuracy: 0.5200771415175294",
+    "precision: 0.5293257721995582",
+    "recall: 0.7466829201460861",
+    "f1-score: 0.6154008198932631",
+    "support: 113039"
+  ],
+  "epoch_1_metrics_weighted": [
+    "accuracy: 0.5200771415175294",
+    "precision: 0.2950612560559225",
+    "recall: 0.5200771415175294",
+    "f1-score: 0.3741850573496079",
+    "support: 113039"
+  ],
+  "epoch_2_metrics_macro": [
+    "accuracy: 0.5203513831509479",
+    "precision: 0.5321533561622362",
+    "recall: 0.7564484885126065",
+    "f1-score: 0.6207536684908321",
+    "support: 113039"
+  ],
+  "epoch_2_metrics_weighted": [
+    "accuracy: 0.5203513831509479",
+    "precision: 0.295785638595419",
+    "recall: 0.5203513831509479",
+    "f1-score: 0.374723177405104",
+    "support: 113039"
+  ],
+  "training_loop_time": "0:39:24",
+  "flops_list": [
+    11769663406592,
+    11775810286080,
+    11731772028928
+  ]
+}

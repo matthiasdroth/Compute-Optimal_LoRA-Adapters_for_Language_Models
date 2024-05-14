@@ -87,7 +87,7 @@ def make_confusion_matrix(y_true, y_pred, labels, percentage=True, plot=True, si
     if output_dir!=None:
         output_filepath = f"{output_dir}/confusion_matrix_{cfm_type}.png"
         cmd.figure_.savefig(output_filepath)
-        print(f"confusion_matrix saved under path:\n{output_filepath}")
+        #print(f"confusion_matrix saved under path:\n{output_filepath}")
     pass
 
 def get_max_instance(tokenized_dataset):
